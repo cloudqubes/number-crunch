@@ -7,4 +7,5 @@ Listens on port 8080.
 http://square-root/<number>
 
 Ex - http://square-root/4
+
 => 2
