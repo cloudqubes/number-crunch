@@ -8,4 +8,4 @@ http://square-root/<number>
 
 Ex - http://square-root/4
 
-=> 2
+=> {"InputNumber":4,"SquareRoot":2}
