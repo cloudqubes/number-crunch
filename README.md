@@ -1,13 +1,37 @@
-# number-crunch
-A simple Go lang application to play around with Kubernetes.
+# Overview
+`number-crunch` is a simple Go lang web application to play around with Kubernetes.
+It listens on port 8080.
 
-Listens on port 8080.
+# Get started
+
+Clone the repo and run the server.
+```shell
+git clone git@github.com:cloudqubes/number-crunch.git
+go run number-crunch.go
+```
+
+# URL endpoints
+
+`number-crunch` has two URL end points.
 
 ## Square root URL
-http://x.x.x.x/square-root/<number>
 
-Ex - Running on local host.
+Return the square root of a number.
+Path: `/square-root/<number>
 
-  http://127.0.0.1/square-root/4
-  
+Example with `curl`
+```shell
+curl http://127.0.0.1/square-root/4
   => {"InputNumber":4,"SquareRoot":2}
+```
+
+## Cube root URL
+
+Return the cube root of a number.
+Path: `/cube-root/<number>
+
+Example with `curl`
+```shell
+curl http://127.0.0.1:8080/cube-root/8
+  => {"InputNumber":8,"CubeRoot":2}
+```

@@ -1,8 +1,12 @@
 package main
 
-import(
-	"net/http"
+import (
+	"errors"
+	"fmt"
 	"math"
+	"net/http"
+	"os"
+
 	// "fmt"
 	"encoding/json"
 	"strconv"
@@ -16,12 +20,17 @@ func SquareRoot(x float64) float64 {
 	return math.Sqrt(x)
 }
 
-type SQRoot struct{
+type SQRoot struct {
 	InputNumber float64
-	SquareRoot float64
+	SquareRoot  float64
 }
 
-func squareRootHandler(w http.ResponseWriter, r *http.Request){
+type CbRoot struct {
+	InputNumber float64
+	CubeRoot    float64
+}
+
+func squareRootHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	inputNumber, err := strconv.ParseFloat(r.URL.Path[len("/square-root/"):], 64)
 	if err != nil {
@@ -31,11 +40,28 @@ func squareRootHandler(w http.ResponseWriter, r *http.Request){
 	json.NewEncoder(w).Encode(sq)
 }
 
-func main(){
-	http.HandleFunc("/square-root/", squareRootHandler)
-	http.ListenAndServe(":8080", nil)
-	// fmt.Println(SquareRoot(2))
+func cubeRootHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	// fmt.Println(r.URL.Path)
+	inputNumber, err := strconv.ParseFloat(r.URL.Path[len("/cube-root/"):], 64)
+	if err != nil {
+		panic(err)
+	}
+	cr := CbRoot{inputNumber, math.Cbrt(inputNumber)}
+	json.NewEncoder(w).Encode(cr)
+
 }
 
+func main() {
+	http.HandleFunc("/square-root/", squareRootHandler)
+	http.HandleFunc("/cube-root/", cubeRootHandler)
 
-
+	fmt.Printf("Starting server on port :8080\n")
+	err := http.ListenAndServe(":8080", nil)
+	if errors.Is(err, http.ErrServerClosed) {
+		fmt.Printf("Shutting down server\n")
+	} else if err != nil {
+		fmt.Printf("Cannot start server: %s\n", err)
+		os.Exit(1)
+	}
+}
