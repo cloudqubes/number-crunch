@@ -1,6 +1,7 @@
 # Overview
-`number-crunch` is a simple Go lang web application to play around with Kubernetes.
-It listens on port 8080.
+`number-crunch` is a simple Go lang web application that listens on port 8080.
+You can use this application for Kubernetes learning.
+
 
 # Get started
 
